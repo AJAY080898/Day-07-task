@@ -1,0 +1,41 @@
+//ARRAY METHODS
+//a.Solving problems using array functions on rest countries data (https://restcountries.com/v3.1/all).
+//b.et all the countries from Asia continent /region using Filter method
+//c.Get all the countries with a population of less than 2 lakhs using Filter method
+//d.Print the following details name, capital, flag, using forEach method
+//e.Print the total population of countries using reduce method
+//d.Print the country that uses US dollars as currency.
+
+var api = new XMLHttpRequest();
+api.open("GET", "https://restcountries.com/v3.1/all", true);
+api.send();
+api.onload = function () {
+    var data = api.response;
+    var result = JSON.parse(data);
+
+    // a. Get all the countries from Asia continent/region using Filter function
+    console.log("==> A.)");
+    var asiaCountries = result.filter(country => country.region === "Asia");
+    asiaCountries.forEach(country => console.log(country.name.common));
+
+    // b. Get all the countries with a population of less than 200,000 using Filter function
+    console.log("==> B.)");
+    var lowPopulationCountries = result.filter(country => country.population < 200000);
+    lowPopulationCountries.forEach(country => console.log(country.name.common));
+
+    // c. Print the following details: name, capital, flag, using forEach function
+    console.log("==> C.)");
+    result.forEach(country => {
+        console.log(`${country.name.common}, ${country.capital}, ${country.flags.png}`);
+    });
+
+    // d. Print the total population of countries using reduce function
+    console.log("==> D.)");
+    var totalPopulation = result.reduce((acc, country) => acc + country.population, 0);
+    console.log(`Total Population = ${totalPopulation}`);
+
+    // e. Print the country that uses US dollars as currency.
+    console.log("==> E.)");
+    const dollarCountries = result.filter(country => country.currencies && country.currencies.USD);
+    dollarCountries.forEach(country => console.log(country.name.common));
+};
